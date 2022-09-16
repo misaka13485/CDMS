@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bob.cdms.mapper.CertificateOfDepositOrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.bob.cdms.entity.CertificateOfDepositOrder">
+        <id column="ORDER_NO" property="orderNo" />
+        <result column="CUST_NO" property="customerNo" />
+        <result column="AMOUNT" property="amount" />
+        <result column="ORDER_DATE" property="orderDate" />
+    </resultMap>
+    <select id="getCustCertificateOfDepositOrderAmount" resultType="java.math.BigDecimal"
+            parameterType="java.util.Map">
+        SELECT SUM(AMOUNT) AS TOTAL_AMOUNT
+            FROM CERTIFICATE_OF_DEPOSIT_ORDER
+            WHERE (CUST_NO = #{customerNo}
+                       AND CERTIFICATES_OF_DEPOSIT_ID = #{certificateId})
+    </select>
+
+
+</mapper>

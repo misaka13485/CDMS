@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bob.cdms.mapper.CertificateOfDepositInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.bob.cdms.entity.CertificateOfDepositInfo">
+        <id column="CERTIFICATES_OF_DEPOSIT_ID" property="certificatesOfDepositId" />
+        <result column="CERTIFICATES_OF_DEPOSIT_NAME" property="certificatesOfDepositName" />
+        <result column="CURRENCY" property="currency" />
+        <result column="TOTAL_AMOUNT" property="totalAmount" />
+        <result column="RESIDUAL_AMOUNT" property="residualAmount" />
+        <result column="MAX_AMOUNT_PER" property="maxAmountPer" />
+        <result column="MIN_AMOUNT" property="minAmount" />
+        <result column="START_DATE" property="startDate" />
+        <result column="END_DATE" property="endDate" />
+        <result column="ANNUAL_RATE" property="annualRate" />
+    </resultMap>
+    <select id="getToLock" resultType="com.bob.cdms.entity.CertificateOfDepositInfo"
+            parameterType="java.lang.String">
+        SELECT * FROM CERTIFICATE_OF_DEPOSIT_INFO WHERE CERTIFICATES_OF_DEPOSIT_ID = #{id,jdbcType=VARCHAR} FOR UPDATE NOWAIT</select>
+
+
+</mapper>
