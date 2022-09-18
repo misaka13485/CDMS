@@ -10,4 +10,5 @@ public class BuyDepositVO {
     private String certificateOfDepositId;
 
     private BigDecimal amount;
+
 }

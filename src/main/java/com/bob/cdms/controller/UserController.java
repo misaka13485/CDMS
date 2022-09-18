@@ -166,22 +166,25 @@ public class UserController {
                 } catch (Exception e) {
                     log.warn("购买存单失败,重试中,第{}次",i+1);
                     //加入随机等待时间
-                    Thread.sleep((long) (Math.random()*100));
+//                    Thread.sleep((long) (Math.random()*100));
                     continue;
                 }
                 break;
             }
             if (result) {
                 return new ResultVO(SUCCESS_CODE, SUCCESS_MSG);
-            } else {
+            }/* else {
                 return new ResultVO(FAIL_CODE, FAIL_MSG);
-            }
+            }*/
         } catch (BusinessException e) {
             return new ResultVO(e.getCode(), e.getMsg());
-        } catch (Exception e) {
+        }
+         catch (Exception e) {
             log.error("购买存单失败",e);
             return new ResultVO(SEVER_ERROR_CODE, SEVER_ERROR_MSG);
+
         }
+        return null;
     }
     /**
      * 查询存单产品
@@ -209,5 +212,22 @@ public class UserController {
             e.printStackTrace();
             return new ResultVO(SEVER_ERROR_CODE, SEVER_ERROR_MSG);
         }
+    }
+
+    @RequestMapping("/buybyproc")
+    public ResultVO buybyproc(@RequestBody BuyDepositVO buyDepositVO,
+                              @RequestHeader String token) {
+        //登录检查
+        String userId = "";
+        if (token != null || !"".equals(token)) {
+            try {
+                userId = customerInfoService.checkLogin(token);
+            } catch (BusinessException e) {
+                return new ResultVO(NO_LOGIN_CODE, NO_LOGIN_MSG);
+            }
+        } else {
+            return new ResultVO(NO_LOGIN_CODE, NO_LOGIN_MSG);
+        }
+        return iCertificateOfDepositOrderService.buyProductByProc(buyDepositVO.getCertificateOfDepositId(), userId, buyDepositVO.getAmount());
     }
 }

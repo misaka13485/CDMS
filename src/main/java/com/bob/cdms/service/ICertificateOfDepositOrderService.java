@@ -1,5 +1,6 @@
 package com.bob.cdms.service;
 
+import com.bob.cdms.VO.ResultVO;
 import com.bob.cdms.entity.CertificateOfDepositOrder;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.bob.cdms.exception.BusinessException;
@@ -18,4 +19,6 @@ import java.sql.SQLException;
 public interface ICertificateOfDepositOrderService extends IService<CertificateOfDepositOrder> {
 
     boolean buyProduct(String certificateId, String customerId, BigDecimal amount) throws BusinessException, SQLException;
+
+    ResultVO buyProductByProc(String certificateId, String customerId, BigDecimal amount);
 }

@@ -17,4 +17,8 @@ import java.util.Map;
 public interface CertificateOfDepositOrderMapper extends BaseMapper<CertificateOfDepositOrder> {
     BigDecimal getCustCertificateOfDepositOrderAmount(Map<String, Object> params);
 
+    BigDecimal getSEQ();
+
+    void buyProductByProc(Map<String,Object> params);
+
 }

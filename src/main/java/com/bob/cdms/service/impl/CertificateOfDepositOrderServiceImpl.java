@@ -1,6 +1,7 @@
 package com.bob.cdms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.bob.cdms.VO.ResultVO;
 import com.bob.cdms.entity.CertificateOfDepositInfo;
 import com.bob.cdms.entity.CertificateOfDepositOrder;
 import com.bob.cdms.entity.CustBalance;
@@ -11,6 +12,7 @@ import com.bob.cdms.service.ICertificateOfDepositInfoService;
 import com.bob.cdms.service.ICertificateOfDepositOrderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bob.cdms.service.ICustBalanceService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -22,6 +24,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import static com.bob.cdms.constant.ErrorCode.*;
 
@@ -108,13 +111,27 @@ public class CertificateOfDepositOrderServiceImpl extends ServiceImpl<Certificat
         iCustBalanceService.updateByMultiId(custBalance);
         //生成交易订单
         CertificateOfDepositOrder certificateOfDepositOrder = new CertificateOfDepositOrder();
-        certificateOfDepositOrder.setOrderNo("");
+        certificateOfDepositOrder.setOrderNo(certificateOfDepositOrderMapper.getSEQ());
         certificateOfDepositOrder.setAmount(amount);
         certificateOfDepositOrder.setCertificatesOfDepositId(certificateId);
         certificateOfDepositOrder.setCustomerNo(customerId);
         iCertificateOfDepositOrderService.save(certificateOfDepositOrder);
         return true;
     }
+
+    @Override
+    public ResultVO buyProductByProc(String certificateId, String customerId, BigDecimal amount) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("I_Product_Id", certificateId);
+        params.put("I_Cust_No", customerId);
+        params.put("I_Buy_Amount", amount);
+        params.put("O_Cwdm", "");
+        params.put("O_Cwxx", "");
+        certificateOfDepositOrderMapper.buyProductByProc(params);
+        return new ResultVO(params.get("O_Cwdm").toString(), params.get("O_Cwxx").toString());
+    }
+
+    
 
 
 }

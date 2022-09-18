@@ -16,6 +16,17 @@
             WHERE (CUST_NO = #{customerNo}
                        AND CERTIFICATES_OF_DEPOSIT_ID = #{certificateId})
     </select>
+    <select id="getSEQ" resultType="java.math.BigDecimal">
+        SELECT CDMS.SE_CERTIFICATE_OF_DEPOSIT_ORDER.nextval from dual
+    </select>
+    <select id="buyProductByProc" parameterType="map" statementType="CALLABLE">
+        {call Pro_Buy_Product(
+            #{I_Cust_No,jdbcType=VARCHAR,mode=IN}
+            ,#{I_Product_Id,jdbcType=VARCHAR,mode=IN}
+            ,#{I_Buy_Amount,jdbcType=NUMERIC,mode=IN}
+            ,#{O_Cwdm,jdbcType=NUMERIC,mode=OUT}
+            ,#{O_Cwxx,jdbcType=VARCHAR,mode=OUT})}
+    </select>
 
 
 </mapper>

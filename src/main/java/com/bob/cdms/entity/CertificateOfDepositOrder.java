@@ -31,8 +31,8 @@ public class CertificateOfDepositOrder implements Serializable {
     /**
      * 订单号
      */
-    @TableId(value = "ORDER_NO", type = IdType.NONE)
-    private String orderNo;
+    @TableId(value = "ORDER_NO", type = IdType.ASSIGN_UUID)
+    private BigDecimal orderNo;
 
     /**
      * 订单人ID
