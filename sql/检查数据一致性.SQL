@@ -1,0 +1,10 @@
+ select cust_no,count(cust_no),sum(AMOUNT)
+ from CERTIFICATE_OF_DEPOSIT_ORDER
+ group by cust_no
+
+select CERTIFICATES_OF_DEPOSIT_ID,TOTAL_AMOUNT,RESIDUAL_AMOUNT,TOTAL_AMOUNT-RESIDUAL_AMOUNT as use_amount from CERTIFICATE_OF_DEPOSIT_INFO
+
+
+ select cust_no,BALANCE,BALANCE_AVL,BALANCE- BALANCE_AVL as ce
+ from CUST_BALANCE
+where cust_no='251'
