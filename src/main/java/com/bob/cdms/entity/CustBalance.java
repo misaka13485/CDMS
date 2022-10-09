@@ -2,29 +2,23 @@ package com.bob.cdms.entity;
 
 import java.math.BigDecimal;
 
-
-
-import java.time.LocalDateTime;
-import java.io.Serializable;
-
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.github.jeffreyning.mybatisplus.anno.InsertFill;
-import com.github.jeffreyning.mybatisplus.anno.MppMultiId;
-import com.github.jeffreyning.mybatisplus.anno.UpdateFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.TableId;
+import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import org.apache.ibatis.type.JdbcType;
 
 /**
  * <p>
  * 余额明细
  * </p>
  *
- * @author zengxuan
- * @since 2022-09-10
+ * @author ZengXuan
+ * @since 2022-09-18
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -37,9 +31,14 @@ public class CustBalance implements Serializable {
     /**
      * 用户ID
      */
-    @TableField("CUST_NO")
-    @MppMultiId
-    private String customerNo;
+    @TableId(value = "CUST_NO", type = IdType.NONE)
+    private String custNo;
+
+    /**
+     * 币种
+     */
+    @TableField("CURRENCY")
+    private String currency;
 
     /**
      * 可用余额
@@ -47,18 +46,20 @@ public class CustBalance implements Serializable {
     @TableField("BALANCE")
     private BigDecimal balance;
 
-    /**
-     * 币种
-     */
-    @TableField("CURRENCY")
-    @MppMultiId
-    private String currency;
+    @TableField("BALANCE_AVL")
+    private BigDecimal balanceAvailble;
 
     /**
      * 上次修改时间
      */
-
-    @TableField(value = "LAST_CHANGE_DATE",jdbcType = JdbcType.DATE)
+    @TableField("LAST_CHANGE_DATE")
     private LocalDateTime lastChangeDate;
+
+    /**
+     * 昨日余额
+     */
+    @TableField("YD_BALANCE")
+    private BigDecimal ydBalance;
+
 
 }
